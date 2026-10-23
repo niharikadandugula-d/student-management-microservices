@@ -1,0 +1,93 @@
+﻿{
+  "info": {
+    "name": "Student Management Microservices API",
+    "description": "API tests for gateway, students, courses, and authentication.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://127.0.0.1:8000" },
+    { "key": "authUrl", "value": "http://127.0.0.1:8001" },
+    { "key": "token", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Gateway - Health Check",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/health"
+      }
+    },
+    {
+      "name": "Students - Get All",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/students"
+      }
+    },
+    {
+      "name": "Students - Add Student",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"New Student\",\n  \"email\": \"new.student@example.com\",\n  \"age\": 21,\n  \"course\": \"Python Programming\"\n}"
+        },
+        "url": "{{baseUrl}}/students"
+      }
+    },
+    {
+      "name": "Courses - Get All",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/courses"
+      }
+    },
+    {
+      "name": "Auth - Register",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"New User\",\n  \"email\": \"new.user@example.com\",\n  \"password\": \"ExamplePass2026!\"\n}"
+        },
+        "url": "{{authUrl}}/auth/register"
+      }
+    },
+    {
+      "name": "Auth - Login",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.response.code === 200) {",
+              "  const data = pm.response.json();",
+              "  if (data.access_token) { pm.collectionVariables.set('token', data.access_token); }",
+              "}"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"studenthub.test2026@example.com\",\n  \"password\": \"TestPass2026!\"\n}"
+        },
+        "url": "{{authUrl}}/auth/login"
+      }
+    },
+    {
+      "name": "Auth - Validate Token (Me)",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "url": "{{authUrl}}/auth/me"
+      }
+    }
+  ]
+}
