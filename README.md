@@ -96,3 +96,17 @@ Do not commit passwords, access tokens, `.env` files, or local database files. V
 
 ## Conclusion
 This project demonstrates a React frontend integrated with FastAPI microservices through an API Gateway, with student and course management, SQLite persistence, and authentication.
+
+## Screenshots
+
+### StudentHub Dashboard
+![StudentHub Dashboard](screenshots/dashboard.png)
+
+### Add Student
+![Add Student](screenshots/add-student.png)
+
+### API Health Check
+![API Health Check](screenshots/api-health.png)
+
+### Postman API Tests
+![Postman API Tests](screenshots/postman-tests.png)
